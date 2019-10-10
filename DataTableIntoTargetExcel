@@ -1,0 +1,38 @@
+Sub Main()
+        Dim result As New StringBuilder
+        Dim clipboard As String
+        Dim MyColumn As DataColumn
+        Dim collection As DataTable = GetTable()
+
+        result.Append("")
+        For Each MyColumn In collection.Columns
+            result.Append(MyColumn.ColumnName & vbTab)
+        Next MyColumn
+
+        result.Remove(result.Length - 1, 1)
+        result.Append(vbCr)
+
+        For Each MyRow In collection.Rows
+            For Each MyColumn In collection.Columns
+                result.Append(MyRow(MyColumn) & vbTab)
+            Next MyColumn
+            result.Remove(result.Length - 1, 1)
+            result.Append(vbCr)
+        Next MyRow
+
+        My.Computer.Clipboard.SetText(result.ToString)
+        My.Computer.Clipboard.Clear()
+    End Sub
+    
+    Function GetTable() As DataTable
+        Dim collection As New DataTable
+
+        collection.Columns.Add("Test", GetType(String))
+        collection.Columns.Add("Szám", GetType(Integer))
+
+        collection.Rows.Add("Első sor", 1)
+        collection.Rows.Add("Második sor", 2)
+
+        Return collection
+
+    End Function
